@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:project_provider/providers/ThemeProvider.dart';
+import 'package:project_provider/ui/MainWrapper.dart';
 import 'package:project_provider/ui/ui_helper/ThemeSwither.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,7 +17,21 @@ void main() {
   runApp(
     MultiProvider(
         providers: [ChangeNotifierProvider(create: (context) => ThemeProvider())],
-      child: const MyHomePage(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        locale: Locale('en'),
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('en'), // English
+          Locale('fa'), // Spanish
+        ],
+        home: MyHomePage()
+      )
     )
   );
 }
@@ -37,27 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
           theme: MyThemes.liteTheme,
           darkTheme: MyThemes.darkTheme,
           debugShowCheckedModeBanner: false,
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en'), // English
-            Locale('es'), // Spanish
-          ],
-          home: Directionality(
+
+          home: const Directionality(
             textDirection: TextDirection.ltr,
-            child: Scaffold(
-              appBar: AppBar(
-                actions: const [
-                  ThemeSwitcher()
-                ],
-                title: Text("ExchangeBs"),
-                centerTitle: true,
-              ),
-              body: Container(),
-            ),
+            child: MainWrapper(),
           ),
         );
       },
