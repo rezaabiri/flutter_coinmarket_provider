@@ -26,7 +26,7 @@ class _MainWrapperState extends State<MainWrapper> {
       bottomNavigationBar: BottomNav(controller: _myPage,),
       body: PageView(
         controller: _myPage,
-        children: const [
+        children:  [
           HomePage(),
           MarketViewPage(),
           ProfilePage(),
