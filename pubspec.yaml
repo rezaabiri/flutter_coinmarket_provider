@@ -41,6 +41,8 @@ dependencies:
   google_fonts: ^3.0.0
   intl: any
   smooth_page_indicator: ^1.1.0
+  marquee: ^2.2.3
+
 
 
 
