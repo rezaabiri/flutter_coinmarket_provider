@@ -1,10 +1,18 @@
 
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
+import 'package:project_provider/network/ResponseModel.dart';
+import 'package:project_provider/providers/CryptoDataProvider.dart';
 import 'package:project_provider/ui/ui_helper/HomePageView.dart';
+import 'package:project_provider/ui/ui_helper/ShimmerHome.dart';
 import 'package:project_provider/ui/ui_helper/ThemeSwither.dart';
+import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../models/cryptoModel/CryptoData.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,14 +25,23 @@ class _HomePageState extends State<HomePage> {
   final PageController _pageViewController = PageController(initialPage: 0);
   final List<String> _choiceList = ['Top MarketCap','Top Gainers', 'Top Losers'];
   var _defaultChoice = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final cryptoProvider = Provider.of<CryptoDataProvider>(context, listen: false);
+    cryptoProvider.getTopMarketCapData();
+
+  }
   @override
   Widget build(BuildContext context) {
 
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
 
     var primaryColor = Theme.of(context).primaryColor;
     TextTheme textTheme = Theme.of(context).textTheme;
-
-
 
     return Scaffold(
       drawer: Drawer(),
@@ -137,7 +154,59 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-              )
+              ),
+              SizedBox(
+                height: 400,
+                child: Consumer<CryptoDataProvider>(
+                    builder: (context, cryptoDataProvider, child){
+                      switch(cryptoDataProvider.state.status){
+                        case Status.LOADING:
+                          return ShimmerHome();
+                        case Status.COMPLETED:
+                          List<CryptoData>? model = cryptoDataProvider.dataFuture.data?.cryptoCurrencyList;
+                          print(model![0].symbol);
+                          return ListView.separated(
+                              itemBuilder: (context, index){
+
+                                var number = index + 1;
+                                var tokenId = model[index].id;
+                                
+                                return SizedBox(
+                                  height: height * 0.075,
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10.0),
+                                        child: Text(number.toString(), style: textTheme.bodySmall,),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: CachedNetworkImage(
+                                          fadeInDuration: Duration(microseconds: 300),
+                                          width: 32,
+                                          height: 32,
+                                          imageUrl: "https://s2.coinmarketcap.com/static/img/coins/64x64/$tokenId.png",
+                                          placeholder: (context, url) => CircularProgressIndicator(),
+                                          errorWidget: (context, url, error) => Icon(Icons.image_not_supported_outlined),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index){
+                                return Divider();
+                              },
+                              itemCount: 10);
+                        case Status.ERROR:
+                          return Text(cryptoDataProvider.state.message);
+                        default:
+                          return Container();
+
+                      }
+                    }
+                ),
+              ),
             ],
           ),
         ),

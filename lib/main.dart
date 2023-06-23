@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:project_provider/providers/CryptoDataProvider.dart';
 import 'package:project_provider/providers/ThemeProvider.dart';
 import 'package:project_provider/ui/MainWrapper.dart';
 import 'package:project_provider/ui/ui_helper/ThemeSwither.dart';
@@ -16,7 +17,10 @@ void main() {
   );
   runApp(
     MultiProvider(
-        providers: [ChangeNotifierProvider(create: (context) => ThemeProvider())],
+        providers: [
+          ChangeNotifierProvider(create: (context) => ThemeProvider()),
+          ChangeNotifierProvider(create: (context) => CryptoDataProvider()),
+        ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         locale: Locale('en'),
