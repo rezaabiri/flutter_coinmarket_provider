@@ -8,10 +8,9 @@ class ApiProvider {
 
     Dio dio = Dio();
     dio.options.headers.addAll({
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Credentials": true,
-      "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Credentials": true, // Required for cookies, authorization headers with HTTPS
+      "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
     });
 
     var response;

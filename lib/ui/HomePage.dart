@@ -2,7 +2,10 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:marquee/marquee.dart';
+import 'package:project_provider/helpers/decimalRounder.dart';
 import 'package:project_provider/network/ResponseModel.dart';
 import 'package:project_provider/providers/CryptoDataProvider.dart';
 import 'package:project_provider/ui/ui_helper/HomePageView.dart';
@@ -167,8 +170,20 @@ class _HomePageState extends State<HomePage> {
                           return ListView.separated(
                               itemBuilder: (context, index){
 
+
                                 var number = index + 1;
                                 var tokenId = model![index].id;
+
+                                MaterialColor filterColor = DecimalRounder.setColorFilter(model[index].quotes![0].percentChange24h);
+
+                                var finalPrice = DecimalRounder.removePriceDecimals(model[index].quotes![0].price);
+
+                                // percent change setup decimals and colors
+                                var percentChange = DecimalRounder.removePercentDecimals(model[index].quotes![0].percentChange24h);
+
+                                Color percentColor = DecimalRounder.setPercentChangesColor(model[index].quotes![0].percentChange24h);
+                                Icon percentIcon = DecimalRounder.setPercentChangesIcon(model[index].quotes![0].percentChange24h);
+
                                 
                                 return SizedBox(
                                   height: height * 0.075,
@@ -195,8 +210,31 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Text(model[index].symbol!, style: textTheme.titleSmall,),
+                                            Text(model[index].symbol!, style: textTheme.titleMedium,),
                                             Text(model[index].name!, style: textTheme.titleSmall,),
+                                          ],
+                                        ),
+                                      ),
+                                      Flexible(
+                                        fit: FlexFit.tight,
+                                          child: ColorFiltered(
+                                            colorFilter:  ColorFilter.mode(filterColor, BlendMode.srcATop),
+                                              child: SvgPicture.network("https://s3.coinmarketcap.com/generated/sparklines/web/1d/2781/$tokenId.svg"))
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          crossAxisAlignment: CrossAxisAlignment.end,
+                                          children: [
+                                            Text("\$finalPrice", style: textTheme.bodySmall,),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                percentIcon,
+                                                Text(percentChange + "%", style: GoogleFonts.ubuntu(color: percentColor, fontSize: 13),)
+                                              ],
+                                            )
                                           ],
                                         ),
                                       )
