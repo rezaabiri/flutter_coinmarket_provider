@@ -164,12 +164,11 @@ class _HomePageState extends State<HomePage> {
                           return ShimmerHome();
                         case Status.COMPLETED:
                           List<CryptoData>? model = cryptoDataProvider.dataFuture.data?.cryptoCurrencyList;
-                          print(model![0].symbol);
                           return ListView.separated(
                               itemBuilder: (context, index){
 
                                 var number = index + 1;
-                                var tokenId = model[index].id;
+                                var tokenId = model![index].id;
                                 
                                 return SizedBox(
                                   height: height * 0.075,
@@ -190,6 +189,17 @@ class _HomePageState extends State<HomePage> {
                                           errorWidget: (context, url, error) => Icon(Icons.image_not_supported_outlined),
                                         ),
                                       ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(model[index].symbol!, style: textTheme.titleSmall,),
+                                            Text(model[index].name!, style: textTheme.titleSmall,),
+                                          ],
+                                        ),
+                                      )
                                     ],
                                   ),
                                 );
