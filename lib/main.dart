@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:project_provider/providers/CryptoDataProvider.dart';
 import 'package:project_provider/providers/ThemeProvider.dart';
 import 'package:project_provider/ui/MainWrapper.dart';
-import 'package:project_provider/ui/ui_helper/ThemeSwither.dart';
+import 'package:project_provider/ui/ui_helper/ThemeSwitcher.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

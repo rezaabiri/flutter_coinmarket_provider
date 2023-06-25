@@ -10,7 +10,7 @@ import 'package:project_provider/network/ResponseModel.dart';
 import 'package:project_provider/providers/CryptoDataProvider.dart';
 import 'package:project_provider/ui/ui_helper/HomePageView.dart';
 import 'package:project_provider/ui/ui_helper/ShimmerHome.dart';
-import 'package:project_provider/ui/ui_helper/ThemeSwither.dart';
+import 'package:project_provider/ui/ui_helper/ThemeSwitcher.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
     var width = MediaQuery.of(context).size.width;
 
     var primaryColor = Theme.of(context).primaryColor;
+    var primarySecondaryHeaderColor = Theme.of(context).secondaryHeaderColor;
     TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -54,7 +55,7 @@ class _HomePageState extends State<HomePage> {
           ThemeSwitcher()
         ],
         title: Text("Flutter course A"),
-        titleTextStyle: textTheme.titleLarge,
+        titleTextStyle: textTheme.displayMedium,
         centerTitle: true,
       ),
       body: SizedBox(
@@ -97,14 +98,12 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 child: Marquee(
                   text: 'Some sample text that takes some space.',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: textTheme.titleMedium,
                   scrollAxis: Axis.horizontal,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   blankSpace: 20.0,
                   velocity: 100.0,
-                  pauseAfterRound: Duration(seconds: 1),
                   startPadding: 10.0,
-                  accelerationDuration: Duration(seconds: 1),
                   accelerationCurve: Curves.linear,
                   decelerationDuration: Duration(milliseconds: 300),
                   decelerationCurve: Curves.easeOut,
@@ -148,9 +147,22 @@ class _HomePageState extends State<HomePage> {
                           selected: _defaultChoice == index,
                           selectedColor: Colors.blue,
                           onSelected: (value) {
+                            final cryptoProvider = Provider.of<CryptoDataProvider>(context, listen: false);
                             setState(() {
                               _defaultChoice = value ? index : _defaultChoice;
+
                             });
+
+                            switch (_defaultChoice){
+                              case 0:
+                                cryptoProvider.getTopMarketCapData();
+                                break;
+                              case 1:
+                                cryptoProvider.getTopGainers();
+                                break;
+                              case 2:
+                                cryptoProvider.getTopLosers();
+                            }
                           },
                         );
                       })
@@ -164,12 +176,11 @@ class _HomePageState extends State<HomePage> {
                     builder: (context, cryptoDataProvider, child){
                       switch(cryptoDataProvider.state.status){
                         case Status.LOADING:
-                          return ShimmerHome();
+                          return const ShimmerHome();
                         case Status.COMPLETED:
                           List<CryptoData>? model = cryptoDataProvider.dataFuture.data?.cryptoCurrencyList;
                           return ListView.separated(
                               itemBuilder: (context, index){
-
 
                                 var number = index + 1;
                                 var tokenId = model![index].id;
@@ -210,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Text(model[index].symbol!, style: textTheme.titleMedium,),
+                                            Text(model[index].symbol!, style: textTheme.displaySmall,),
                                             Text(model[index].name!, style: textTheme.titleSmall,),
                                           ],
                                         ),
@@ -227,7 +238,7 @@ class _HomePageState extends State<HomePage> {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           crossAxisAlignment: CrossAxisAlignment.end,
                                           children: [
-                                            Text("\$finalPrice", style: textTheme.bodySmall,),
+                                            Text(finalPrice, style: textTheme.bodySmall,),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.end,
                                               children: [

@@ -17,32 +17,41 @@ class ThemeProvider extends ChangeNotifier {
 class MyThemes {
   static final darkTheme = ThemeData(
     textTheme: TextTheme(
-      titleLarge: GoogleFonts.ubuntu(color: Colors.black, fontSize: 22,fontWeight: FontWeight.bold),
+      titleLarge: GoogleFonts.ubuntu(color: Colors.white, fontSize: 22,fontWeight: FontWeight.bold),
       bodySmall: GoogleFonts.ubuntu(color: Colors.white, fontSize: 15),
-      labelSmall: GoogleFonts.ubuntu(color: Colors.white54, fontSize: 13),
-      titleSmall: GoogleFonts.ubuntu(color: Colors.black, fontSize: 12),
+      titleMedium: GoogleFonts.ubuntu(color: Colors.white, fontSize: 15),
+      labelSmall: GoogleFonts.ubuntu(color: Colors.white, fontSize: 13),
+      titleSmall: GoogleFonts.ubuntu(color: Colors.white, fontSize: 12),
+      displayMedium: GoogleFonts.ubuntu(color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
+      displaySmall: GoogleFonts.ubuntu(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold),
 
     ),
 
     unselectedWidgetColor: Colors.white70,
-    primaryColorLight: Colors.black,
-    scaffoldBackgroundColor: Colors.grey.shade900,
+    primaryColorLight: Colors.white,
+    scaffoldBackgroundColor: Colors.black,
     primaryColor: Colors.blueAccent[700],
-    secondaryHeaderColor: Colors.white,
+    secondaryHeaderColor: Colors.black,
     iconTheme: const IconThemeData(color: Colors.black,opacity: 0.8),
   );
   static final liteTheme = ThemeData(
     textTheme: TextTheme(
-      titleLarge: GoogleFonts.ubuntu(color: Colors.white, fontSize: 22,fontWeight: FontWeight.bold),
+      titleLarge: GoogleFonts.ubuntu(color: Colors.black, fontSize: 22,fontWeight: FontWeight.bold),
+      titleMedium: GoogleFonts.ubuntu(color: Colors.black, fontSize: 15),
       bodySmall: GoogleFonts.ubuntu(color: Colors.black, fontSize: 15),
       labelSmall: GoogleFonts.ubuntu(color: Colors.black38, fontSize: 13),
       titleSmall: GoogleFonts.ubuntu(color: Colors.black, fontSize: 12),
+      displayMedium: GoogleFonts.ubuntu(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+      displaySmall: GoogleFonts.ubuntu(color: Colors.black, fontSize: 13, fontWeight: FontWeight.bold),
+
+
+
     ),
-    unselectedWidgetColor: Colors.black,
+    unselectedWidgetColor: Colors.white,
     primaryColorLight: Colors.white,
     scaffoldBackgroundColor: Colors.white,
     primaryColor: Colors.blueAccent,
-    secondaryHeaderColor: Colors.black,
+    secondaryHeaderColor: Colors.white,
     iconTheme: const IconThemeData(color: Colors.white , opacity: 0.8),
   );
 
