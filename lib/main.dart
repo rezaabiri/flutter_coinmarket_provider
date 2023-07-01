@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:project_provider/providers/CryptoDataProvider.dart';
+import 'package:project_provider/providers/MarketViewProvider.dart';
 import 'package:project_provider/providers/ThemeProvider.dart';
 import 'package:project_provider/ui/MainWrapper.dart';
 import 'package:project_provider/ui/ui_helper/ThemeSwitcher.dart';
@@ -20,6 +21,7 @@ void main() {
         providers: [
           ChangeNotifierProvider(create: (context) => ThemeProvider()),
           ChangeNotifierProvider(create: (context) => CryptoDataProvider()),
+          ChangeNotifierProvider(create: (context) => MarketViewProvider()),
         ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
